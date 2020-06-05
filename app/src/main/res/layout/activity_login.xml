@@ -1,71 +1,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="#F32C2C"
     android:gravity="center_horizontal|right"
     android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingTop="56dp"
+    android:paddingRight="24dp">
     >
+
+    <!-- Login Title-->
 
     <TextView
         android:id="@+id/login_titre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/press_start_2p"
         android:gravity="center_horizontal"
         android:text="@string/titre"
         android:textColor="@color/blanc"
-        android:textSize="20pt" />
+        android:textSize="15pt" />
 
-    <LinearLayout
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_labelLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:hint="@string/login"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:textColor="@color/blanc"
+        android:textColorHint="#FFFFFF"
+        android:textSize="50pt"
+        app:boxStrokeColor="@color/blanc"
+        app:counterOverflowTextColor="@color/blanc"
+        app:errorTextColor="@color/orange"
+        app:hintTextColor="@color/blanc">
 
-        <TextView
-            android:id="@+id/login_labelLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textColor="@color/blanc" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_edtLogin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/blanc"
-            android:ems="10" >
+            android:background="#00FFFFFF"
+            android:textColor="@color/blanc"
+            android:textColorHighlight="@color/blanc"
+            android:textColorLink="@color/blanc"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <requestFocus />
-        </EditText>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_labelPasse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:hint="@string/passe"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:textColor="@color/blanc"
+        android:textColorHint="#FFFFFF"
+        android:textSize="50pt"
+        app:boxStrokeColor="@color/blanc"
+        app:counterOverflowTextColor="@color/blanc"
+        app:errorTextColor="@color/orange"
+        app:hintTextColor="@color/blanc">
 
-        <TextView
-            android:id="@+id/login_labelPasse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/passe"
-            android:textColor="@color/blanc" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_edtPasse"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/blanc"
+            android:background="#00FFFFFF"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/blanc"
+            android:textColorHighlight="@color/blanc"
+            android:textColorLink="@color/blanc"
+            android:textSize="18sp" />
 
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/login_labelRemember"
@@ -78,16 +98,28 @@
             android:id="@+id/login_cbRemember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:buttonTint="@color/blanc"
+            android:shadowColor="@color/blanc"
+            android:textColor="@color/blanc"
+            android:textColorHighlight="@color/blanc"
+            android:textColorHint="@color/blanc"
+            android:textColorLink="@color/blanc"
+            app:useMaterialThemeColors="true" />
 
     </LinearLayout>
 
+
     <Button
         android:id="@+id/login_btnOK"
-        android:layout_width="wrap_content"
+        android:layout_width="367dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#A51212"
         android:enabled="false"
-        android:text="@string/ok" />
+        android:text="@string/ok"
+        android:textColor="@color/blanc"
+        android:textColorHighlight="@color/blanc"
+        android:textColorHint="@color/blanc"
+        android:textColorLink="@color/blanc" />
 
     <TextView
         android:id="@+id/login_progressText"
@@ -101,5 +133,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="290dp"
+        android:layout_height="107dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#FFFFFF"
+        android:hapticFeedbackEnabled="false"
+        app:srcCompat="@drawable/centrale" />
+
 
 </LinearLayout>
