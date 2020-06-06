@@ -23,12 +23,14 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     private ListeConversations listeConvs;
     private Button btnOK;
     private Spinner sp;
+    private String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_conversation);
-
+        Bundle bdl = getIntent().getExtras();
+        currentUser = bdl.getString("currentUser");
         // Au démarrage de l'activité, réaliser une requete
         // Pour récupérer les conversations
         String qs = "conversations";
@@ -145,6 +147,9 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         Intent toShowConv = new Intent(this,ShowConvActivity.class);
         Bundle bdl = new Bundle();
         bdl.putString("idConversation",convSelected.getId());
+        bdl.putString("conversationTheme",convSelected.getTheme());
+        bdl.putString("currentUser",currentUser);
+
         toShowConv.putExtras(bdl);
         startActivity(toShowConv);
     }

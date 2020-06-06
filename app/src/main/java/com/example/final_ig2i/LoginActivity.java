@@ -68,6 +68,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         LoginActivity.this.savePrefs();
                         // TODO: Changer d'activité vers choixConversation
                         Intent toChoixConv = new Intent(LoginActivity.this, ChoixConvActivity.class);
+                        Bundle bdl = new Bundle();
+                        Log.i("L4-SI-Logs", champLogin.getText().toString());
+
+                        bdl.putString("currentUser",champLogin.getText().toString());
+                        toChoixConv.putExtras(bdl);
                         startActivity(toChoixConv);
 
                     }
