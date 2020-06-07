@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -183,12 +185,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.login_btnOK:
-                String login = champLogin.getText().toString();
-                String passe = champPass.getText().toString();
-                String qs = "login?login=" + login + "&passe=" + passe;
-//                String qs = "login/" + login + "/" + passe;
-                JSONAsyncTask js = new JSONAsyncTask();
-                js.execute(qs);
+                try {
+                    JSONObject objToSend = new JSONObject();
+                    objToSend.put("login", champLogin.getText().toString());
+                    objToSend.put("passe", champPass.getText().toString());
+                    String cryptedData = this.gs.createJWT(objToSend);
+
+                    String qs = "login?cryptedJWT=" + cryptedData;
+                    //  String qs = "login/" + login + "/" + passe;
+                    JSONAsyncTask js = new JSONAsyncTask();
+                    js.execute(qs);
+                } catch (JSONException | UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
                 break;
         }
     }

@@ -13,7 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
 
 public class ShowConvActivity extends RestActivity implements View.OnClickListener {
 
@@ -38,7 +45,13 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
         if (action.contentEquals("GET")) {
             try {
                 // parcours des messages
-                JSONArray messagesJSON = o.getJSONArray("messages");
+
+                //the JWS is verified and we get the conversations array
+                // the array is converted into a JSONArray
+                // following could be optimised
+                Claims decryptedData = gs.decodeJWT(o.getString("jwtToDecrypt"));
+                ArrayList messagesArray = (ArrayList) decryptedData.get("messages");
+                JSONArray messagesJSON = new JSONArray(messagesArray);
                 int i;
                 messages = new ArrayList<Message>();
                 for(i=0;i<messagesJSON.length();i++) {
@@ -66,7 +79,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
 
                 // mise à jour du numéro du dernier message
                 idLastMessage = Integer.parseInt(o.getString("idLastMessage"));
-            } catch (JSONException e) {
+            } catch (JSONException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
@@ -119,11 +132,22 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
     public void onClick(View v) {
         // Clic sur OK : on récupère le message
         // conversation_edtMessage
-        String msg = edtMsg.getText().toString();
-        String qs="conversations/" + conversation.getId() +"/" + idLastMessage + "?contenu=" + msg;
+        String msg = edtMsg.getText().toString().replaceAll("[\\t\\n\\r]+"," ");
 
-        envoiRequete(qs,"POST");
+        //get the data to send and create a JWT
+        try {
+            JSONObject objToSend = new JSONObject();
+            objToSend.put("contenu", msg);
+            String cryptedData = this.gs.createJWT(objToSend);
 
-        edtMsg.setText("");
+
+            String qs="conversations/" + conversation.getId() +"/" + idLastMessage + "?cryptedJWT=" + cryptedData;
+            //  String qs = "login/" + login + "/" + passe;
+            envoiRequete(qs,"POST");
+            edtMsg.setText("");
+
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }

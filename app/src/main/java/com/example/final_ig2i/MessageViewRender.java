@@ -31,22 +31,27 @@ public class MessageViewRender extends RecyclerView.ViewHolder {
 
 
     public void render(@NonNull Message message, LinearLayout msgLayout, String currentUser) {
-        this.authorView.setText(message.getUser());
-        this.messageView.setText(message.getMessage());
-        this.cardView.setBackgroundColor(Color.parseColor(message.getCouleur()));
-        Log.i("L4-SI-Logs", "CURRENT USER IS : " + currentUser);
-        Log.i("L4-SI-Logs", "AUTHOR IS : " + message.getUser());
-        Log.i("L4-SI-Logs", "AUTHOR IS : " + currentUser.compareTo(message.getUser()));
+        if(message.getUser() != "null" && message.getCouleur() != "null") {
 
-        if(currentUser.compareTo(message.getUser()) == 0) {
-            Log.i("L4-SI-Logs", "GO RIGHT " + message.getUser());
-            ViewGroup.LayoutParams oldParams = cardView.getLayoutParams();
+            //set author & message Text
+            //set background color
+            this.authorView.setText(message.getUser());
+            this.messageView.setText(message.getMessage());
+            this.cardView.setBackgroundColor(Color.parseColor(message.getCouleur()));
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(oldParams.width, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.gravity = Gravity.RIGHT;
+            //if the author is the current user we put the message
+            //on the right hand side of the screen
+            if(currentUser.compareTo(message.getUser()) == 0) {
 
-            cardView.setLayoutParams(params);
+                //we get the actual LinearParams of the Layout
+                ViewGroup.LayoutParams oldParams = cardView.getLayoutParams();
+
+                //we change the layout_grabity
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(oldParams.width, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.gravity = Gravity.RIGHT;
+                cardView.setLayoutParams(params);
+            }
+            msgLayout.addView(view);
         }
-        msgLayout.addView(view);
     }
 }
