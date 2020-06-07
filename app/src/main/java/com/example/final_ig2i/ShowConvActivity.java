@@ -54,6 +54,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
                 JSONArray messagesJSON = new JSONArray(messagesArray);
                 int i;
                 messages = new ArrayList<Message>();
+                msgLayout.removeAllViewsInLayout();
                 for(i=0;i<messagesJSON.length();i++) {
                     JSONObject msgJSON = (JSONObject) messagesJSON.get(i);
                     Message msg = new Message(
