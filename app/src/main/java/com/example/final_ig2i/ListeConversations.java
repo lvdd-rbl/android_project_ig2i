@@ -18,7 +18,7 @@ public class ListeConversations {
     }
 
     /**
-     * Ajoture une conversation à la liste
+     * Ajouter une conversation à la liste
      * @param c conversation
      */
     public void addConversation(Conversation c) {

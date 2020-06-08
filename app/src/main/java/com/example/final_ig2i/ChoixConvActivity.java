@@ -34,15 +34,15 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_conversation);
-        //Récupérer le nom de l'utilisateur acutel
+        //Récupérer le nom de l'utilisateur actuel
         Bundle bdl = getIntent().getExtras();
         currentUser = bdl.getString("currentUser");
         // Récupérer les conversations à l'aide d'un requête
         String qs = "conversations";
         // On se sert des services offerts par RestActivity,
-        // qui propose des méthodes d'envoi de requetes asynchrones
+        // qui propose des méthodes d'envoi de requêtes asynchrones
         envoiRequete(qs, "GET");
-        // Créer une liste de conversation à l'aide de la classe ListeConversation.java
+        // Créer une liste de conversations à l'aide de la classe ListeConversation.java
         listeConvs = new ListeConversations();
         // Créer un écouteur sur le bouton OK (Rejoindre)
         btnOK = findViewById(R.id.choixConversation_btnOK);
@@ -152,7 +152,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
         // démarrer l'activité d'affichage des messages
 
-        // Récupérer la conversation sélectionné dans le spinner
+        // Récupérer la conversation sélectionnée dans le spinner
         Conversation convSelected = (Conversation) sp.getSelectedItem();
         /*
         gs.alerter("Conv sélectionnée : " + convSelected.getTheme()
