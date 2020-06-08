@@ -3,30 +3,42 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="#F32C2C"
     android:gravity="center_horizontal|right"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/choixConversation_titre"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/choixConversation"
+        android:layout_height="58dp"
+        android:background="@color/orange"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="CHOISIR UNE CONVERSATION"
         android:textColor="@color/blanc"
         android:textSize="12pt" />
+
 
     <Spinner
         android:id="@+id/choixConversation_choixConv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blanc" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/radius"
+        android:gravity="center_vertical"
+        android:popupBackground="@drawable/radius" />
 
     <Button
         android:id="@+id/choixConversation_btnOK"
-        android:layout_width="wrap_content"
+        android:layout_width="151dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/orange"
         android:enabled="false"
-        android:text="@string/ok" />
+        android:text="@string/rejoindre"
+        android:textColor="@color/blanc" />
+
 
 </LinearLayout>

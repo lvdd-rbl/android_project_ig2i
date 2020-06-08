@@ -31,18 +31,11 @@
     <Button
         android:id="@+id/conversation_btnOK"
         android:layout_width="wrap_content"
-        android:layout_height="71dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="9dp"
-        android:layout_toEndOf="@+id/list_message_message_field_layout"
-        android:autoText="false"
-        android:backgroundTint="#A51212"
         android:enabled="true"
-        android:text="@string/sendBtn"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp" />
+        android:text="@string/send" />
 
     <ScrollView
         android:id="@+id/conversation_svMessages"
