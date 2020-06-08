@@ -21,6 +21,10 @@ public class MessageViewRender extends RecyclerView.ViewHolder {
     public final TextView messageView;
 
 
+    /**
+     * Constructeur
+     * @param itemView
+     */
     public MessageViewRender(@NonNull View itemView ) {
         super(itemView);
         this.view = itemView;
@@ -33,24 +37,25 @@ public class MessageViewRender extends RecyclerView.ViewHolder {
     public void render(@NonNull Message message, LinearLayout msgLayout, String currentUser) {
         if(message.getUser() != "null" && message.getCouleur() != "null") {
 
-            //set author & message Text
-            //set background color
+            //défini l'auteur et le message
+            //défini la couleur background
             this.authorView.setText(message.getUser());
             this.messageView.setText(message.getMessage());
             this.cardView.setBackgroundColor(Color.parseColor(message.getCouleur()));
 
-            //if the author is the current user we put the message
-            //on the right hand side of the screen
+            //Si l'utilisateur est le propriétaire du message
+            //on affiche le message à droite de l'écran
             if(currentUser.compareTo(message.getUser()) == 0) {
 
-                //we get the actual LinearParams of the Layout
+                //on récupère les LinearParams du Layout
                 ViewGroup.LayoutParams oldParams = cardView.getLayoutParams();
 
-                //we change the layout_grabity
+                //On change le paramètre "gravity"
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(oldParams.width, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.gravity = Gravity.RIGHT;
                 cardView.setLayoutParams(params);
             }
+            // On affiche le message
             msgLayout.addView(view);
         }
     }
