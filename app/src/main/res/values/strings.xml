@@ -7,7 +7,9 @@
     <string name="titre">LE4 SI CHAT</string>
     <string name="login">Login : </string>
     <string name="passe">Mot de passe : </string>
-    <string name="ok">LOGIN</string>
+    <string name="ok">OK</string>
+    <string name="sendBtn">Envoyer</string>
+    <string name="loginBtn">LOGIN</string>
     <string name="monCompte">Mon Compte</string>
     <string name="couleur">Couleur Préférée : </string>
     <string name="choixConversation">Choix Conversation</string>

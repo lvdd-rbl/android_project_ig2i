@@ -3,6 +3,7 @@ package com.example.final_ig2i;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +17,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import io.jsonwebtoken.Claims;
 
 public class ChoixConvActivity extends RestActivity implements View.OnClickListener {
 
     private ListeConversations listeConvs;
     private Button btnOK;
     private Spinner sp;
+    private String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_conversation);
-
+        Bundle bdl = getIntent().getExtras();
+        currentUser = bdl.getString("currentUser");
         // Au démarrage de l'activité, réaliser une requete
         // Pour récupérer les conversations
         String qs = "conversations";
@@ -50,7 +56,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     @Override
     public void traiteReponse(JSONObject o, String action) {
         if (action.contentEquals("GET")) {
-            gs.alerter(o.toString());
+            // gs.alerter(o.toString());
+            Log.i("L4-SI-Logs", o.toString());
 
             // On transforme notre objet JSON en une liste de "Conversations"
             // On pourrait utiliser la librairie GSON pour automatiser ce processus d'interprétation
@@ -71,7 +78,15 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             int i;
             JSONArray convs = null;
             try {
-                convs = o.getJSONArray("conversations");
+
+                //the JWS is verified and we get the conversations array
+                // the array is converted into a JSONArray
+                // following could be optimised
+                Claims decryptedData = gs.decodeJWT(o.getString("jwtToDecrypt"));
+                ArrayList conversationsArray = (ArrayList) decryptedData.get("conversations");
+                convs = new JSONArray(conversationsArray);
+
+                //creation of Conversation Object
                 for(i=0;i<convs.length();i++) {
                     JSONObject nextConv = (JSONObject) convs.get(i);
 
@@ -79,16 +94,18 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
                     String theme = nextConv.getString("theme");
                     Boolean active = ((String) nextConv.getString("active")).contentEquals("1");
 
-                    gs.alerter("Conv " + _id  + " theme = " + theme + " active ?" + active);
+
+                    // gs.alerter("Conv " + _id  + " theme = " + theme + " active ?" + active);
                     Conversation c = new Conversation(_id,theme,active);
 
                     listeConvs.addConversation(c);
                 }
-            } catch (JSONException e) {
+
+            } catch (JSONException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
-            gs.alerter(listeConvs.toString());
+            // gs.alerter(listeConvs.toString());
 
             // On peut maintenant appuyer sur le bouton
             btnOK.setEnabled(true);
@@ -145,6 +162,9 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         Intent toShowConv = new Intent(this,ShowConvActivity.class);
         Bundle bdl = new Bundle();
         bdl.putString("idConversation",convSelected.getId());
+        bdl.putString("conversationTheme",convSelected.getTheme());
+        bdl.putString("currentUser",currentUser);
+
         toShowConv.putExtras(bdl);
         startActivity(toShowConv);
     }

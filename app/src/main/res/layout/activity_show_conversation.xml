@@ -7,40 +7,60 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/conversation_edtMessage"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/list_message_message_field_layout"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@color/blanc"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="17dp"
+    >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/conversation_edtMessage"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:background="@color/blanc"
+            android:inputType="textLongMessage"
+            android:textColor="@color/noir" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/conversation_btnOK"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="71dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="9dp"
+        android:layout_toEndOf="@+id/list_message_message_field_layout"
+        android:autoText="false"
+        android:backgroundTint="#A51212"
         android:enabled="true"
-        android:text="@string/ok" />
+        android:text="@string/sendBtn"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp" />
 
     <ScrollView
         android:id="@+id/conversation_svMessages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="566dp"
         android:layout_above="@+id/conversation_btnOK"
+        android:layout_below="@+id/conversation_titre"
         android:layout_alignLeft="@+id/conversation_titre"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/conversation_titre"
-        android:background="@color/blanc" >
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/blanc">
 
         <LinearLayout
             android:id="@+id/conversation_svLayoutMessages"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
         </LinearLayout>
     </ScrollView>
@@ -52,7 +72,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/conversation_btnOK"
         android:gravity="center|center_horizontal"
-        android:text="@string/conversation"
         android:textAlignment="gravity"
         android:textColor="@color/blanc"
         android:textSize="20pt" />
