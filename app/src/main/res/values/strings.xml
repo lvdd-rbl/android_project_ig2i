@@ -29,5 +29,8 @@
 
     <string name="title_activity_choix_conv">ChoixConvActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="join">join</string>
+    <string name="send">send</string>
+    <string name="rejoindre">rejoindre</string>
 
 </resources>
