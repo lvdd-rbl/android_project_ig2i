@@ -3,6 +3,7 @@ package com.example.final_ig2i;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,29 +17,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import io.jsonwebtoken.Claims;
 
 public class ChoixConvActivity extends RestActivity implements View.OnClickListener {
 
     private ListeConversations listeConvs;
     private Button btnOK;
     private Spinner sp;
+    private String currentUser;
 
+    // Au démarrage de l'activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_conversation);
-
-        // Au démarrage de l'activité, réaliser une requete
-        // Pour récupérer les conversations
+        //Récupérer le nom de l'utilisateur actuel
+        Bundle bdl = getIntent().getExtras();
+        currentUser = bdl.getString("currentUser");
+        // Récupérer les conversations à l'aide d'un requête
         String qs = "conversations";
-
         // On se sert des services offerts par RestActivity,
-        // qui propose des méthodes d'envoi de requetes asynchrones
+        // qui propose des méthodes d'envoi de requêtes asynchrones
         envoiRequete(qs, "GET");
-
+        // Créer une liste de conversations à l'aide de la classe ListeConversation.java
         listeConvs = new ListeConversations();
-
+        // Créer un écouteur sur le bouton OK (Rejoindre)
         btnOK = findViewById(R.id.choixConversation_btnOK);
         btnOK.setOnClickListener(this);
 
@@ -50,7 +56,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     @Override
     public void traiteReponse(JSONObject o, String action) {
         if (action.contentEquals("GET")) {
-            gs.alerter(o.toString());
+            // gs.alerter(o.toString());
+            Log.i("L4-SI-Logs", o.toString());
 
             // On transforme notre objet JSON en une liste de "Conversations"
             // On pourrait utiliser la librairie GSON pour automatiser ce processus d'interprétation
@@ -71,7 +78,15 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             int i;
             JSONArray convs = null;
             try {
-                convs = o.getJSONArray("conversations");
+
+                //the JWS is verified and we get the conversations array
+                // the array is converted into a JSONArray
+                // following could be optimised
+                Claims decryptedData = gs.decodeJWT(o.getString("jwtToDecrypt"));
+                ArrayList conversationsArray = (ArrayList) decryptedData.get("conversations");
+                convs = new JSONArray(conversationsArray);
+
+                //creation of Conversation Object
                 for(i=0;i<convs.length();i++) {
                     JSONObject nextConv = (JSONObject) convs.get(i);
 
@@ -79,16 +94,18 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
                     String theme = nextConv.getString("theme");
                     Boolean active = ((String) nextConv.getString("active")).contentEquals("1");
 
-                    gs.alerter("Conv " + _id  + " theme = " + theme + " active ?" + active);
+
+                    // gs.alerter("Conv " + _id  + " theme = " + theme + " active ?" + active);
                     Conversation c = new Conversation(_id,theme,active);
 
                     listeConvs.addConversation(c);
                 }
-            } catch (JSONException e) {
+
+            } catch (JSONException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
-            gs.alerter(listeConvs.toString());
+            // gs.alerter(listeConvs.toString());
 
             // On peut maintenant appuyer sur le bouton
             btnOK.setEnabled(true);
@@ -96,6 +113,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         }
     }
 
+    /*
+    // PAS UTILISÉ
     private void remplirSpinner() {
 
         // V1 : utilisation d'un spinner
@@ -114,7 +133,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
 
-    }
+    }*/
 
 
     private void remplirSpinner2() {
@@ -127,24 +146,25 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
     }
 
+    //Lors du clic sur le bouton "rejoindre"
     @Override
     public void onClick(View v) {
-        // lors du clic sur le bouton OK,
-        // récupérer l'id de la conversation sélectionnée
+
         // démarrer l'activité d'affichage des messages
 
-        // NB : il faudrait être sur qu'on ne clique pas sur le bouton
-        // tant qu'on a pas fini de charger la liste des conversations
-        // On indique que le bouton est désactivé au départ.
-
+        // Récupérer la conversation sélectionnée dans le spinner
         Conversation convSelected = (Conversation) sp.getSelectedItem();
+        /*
         gs.alerter("Conv sélectionnée : " + convSelected.getTheme()
                         + " id=" + convSelected.getId());
-
-        // On crée un Intent pour changer d'activité
+        */
+        // On crée un Intent pour changer d'activité avec des valeurs dans un bundle
         Intent toShowConv = new Intent(this,ShowConvActivity.class);
         Bundle bdl = new Bundle();
         bdl.putString("idConversation",convSelected.getId());
+        bdl.putString("conversationTheme",convSelected.getTheme());
+        bdl.putString("currentUser",currentUser);
+
         toShowConv.putExtras(bdl);
         startActivity(toShowConv);
     }
@@ -173,7 +193,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             label.setText(nextC.getTheme());
 
             ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
-
+            // Affiche une icone du robot android vert si la conversation est active sinon en gris
             if (nextC.getActive()) {
                 icon.setImageResource(R.drawable.icon36);
             } else {
@@ -194,7 +214,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             label.setText(nextC.getTheme());
 
             ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
-
+            // Affiche une icone du robot android vert si la conversation est active sinon en gris
             if (nextC.getActive()) {
                 icon.setImageResource(R.drawable.icon);
             } else {
