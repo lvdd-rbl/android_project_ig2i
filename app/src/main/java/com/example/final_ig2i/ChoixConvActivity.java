@@ -29,22 +29,22 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     private Spinner sp;
     private String currentUser;
 
+    // Au démarrage de l'activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_conversation);
+        //Récupérer le nom de l'utilisateur actuel
         Bundle bdl = getIntent().getExtras();
         currentUser = bdl.getString("currentUser");
-        // Au démarrage de l'activité, réaliser une requete
-        // Pour récupérer les conversations
+        // Récupérer les conversations à l'aide d'un requête
         String qs = "conversations";
-
         // On se sert des services offerts par RestActivity,
-        // qui propose des méthodes d'envoi de requetes asynchrones
+        // qui propose des méthodes d'envoi de requêtes asynchrones
         envoiRequete(qs, "GET");
-
+        // Créer une liste de conversations à l'aide de la classe ListeConversation.java
         listeConvs = new ListeConversations();
-
+        // Créer un écouteur sur le bouton OK (Rejoindre)
         btnOK = findViewById(R.id.choixConversation_btnOK);
         btnOK.setOnClickListener(this);
 
@@ -113,6 +113,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         }
     }
 
+    /*
+    // PAS UTILISÉ
     private void remplirSpinner() {
 
         // V1 : utilisation d'un spinner
@@ -131,7 +133,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
 
-    }
+    }*/
 
 
     private void remplirSpinner2() {
@@ -144,21 +146,19 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
     }
 
+    //Lors du clic sur le bouton "rejoindre"
     @Override
     public void onClick(View v) {
-        // lors du clic sur le bouton OK,
-        // récupérer l'id de la conversation sélectionnée
+
         // démarrer l'activité d'affichage des messages
 
-        // NB : il faudrait être sur qu'on ne clique pas sur le bouton
-        // tant qu'on a pas fini de charger la liste des conversations
-        // On indique que le bouton est désactivé au départ.
-
+        // Récupérer la conversation sélectionnée dans le spinner
         Conversation convSelected = (Conversation) sp.getSelectedItem();
+        /*
         gs.alerter("Conv sélectionnée : " + convSelected.getTheme()
                         + " id=" + convSelected.getId());
-
-        // On crée un Intent pour changer d'activité
+        */
+        // On crée un Intent pour changer d'activité avec des valeurs dans un bundle
         Intent toShowConv = new Intent(this,ShowConvActivity.class);
         Bundle bdl = new Bundle();
         bdl.putString("idConversation",convSelected.getId());
@@ -193,7 +193,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             label.setText(nextC.getTheme());
 
             ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
-
+            // Affiche une icone du robot android vert si la conversation est active sinon en gris
             if (nextC.getActive()) {
                 icon.setImageResource(R.drawable.icon36);
             } else {
@@ -214,7 +214,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             label.setText(nextC.getTheme());
 
             ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
-
+            // Affiche une icone du robot android vert si la conversation est active sinon en gris
             if (nextC.getActive()) {
                 icon.setImageResource(R.drawable.icon);
             } else {

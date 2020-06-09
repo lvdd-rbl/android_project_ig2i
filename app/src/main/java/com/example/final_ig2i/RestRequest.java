@@ -21,7 +21,7 @@ public class RestRequest extends AsyncTask<String, Void, JSONObject> {
 
     public RestRequest(RestActivity act) {
         mAct = act;
-        gs = mAct.gs; // On fait normalement des WeakReferences ?
+        gs = mAct.gs;
     }
 
     @Override
@@ -33,10 +33,7 @@ public class RestRequest extends AsyncTask<String, Void, JSONObject> {
 
     @Override
     protected JSONObject doInBackground(String... qs) {
-        Log.i(gs.cat, "doInBackground");    // rien de l'UI thread ici
-
-        // si nb args de qs = 1 ??
-        // qs.length existe
+        Log.i(gs.cat, "doInBackground");
 
         action = qs[1];
 
@@ -50,7 +47,6 @@ public class RestRequest extends AsyncTask<String, Void, JSONObject> {
         } catch (JSONException e) {
             e.printStackTrace();
             json = new JSONObject();
-            // Comment faire de manière rigoureuse ?
         }
 
         Log.i(gs.cat, "interpretation effectuee");

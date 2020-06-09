@@ -40,7 +40,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
     @Override
     public void traiteReponse(JSONObject o, String action) {
         if (action.contentEquals("POST")) {
-            gs.alerter("retour de la requete posterMessage");
+            //gs.alerter("retour de la requete posterMessage");
         }
         if (action.contentEquals("GET")) {
             try {

@@ -49,26 +49,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             JSONObject ob = null;
             try {
-                // TODO: interpréter le résultat sous forme d'objet JSON
+                // interpréter le résultat sous forme d'objet JSON
                 ob = new JSONObject(res);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return ob; // TODO: renvoyer des JSONObject et pas des String
+            return ob; //renvoyer des JSONObject et pas des String
         }
 
         protected void onPostExecute(JSONObject result) {
             Log.i("L4-SI-Logs", "onPostExecute");
             if (result != null) {
                 Log.i("L4-SI-Logs", result.toString());
-                LoginActivity.this.gs.alerter(result.toString());
+                //LoginActivity.this.gs.alerter(result.toString());
 
-                // TODO: Vérifier la connexion ("connecte":true)
+                // Vérifier la connexion ("connecte":true)
                 try {
                     if (result.getBoolean("connecte")) {
                         LoginActivity.this.savePrefs();
-                        // TODO: Changer d'activité vers choixConversation
+                        // Changer d'activité vers choixConversation
                         Intent toChoixConv = new Intent(LoginActivity.this, ChoixConvActivity.class);
                         Bundle bdl = new Bundle();
                         Log.i("L4-SI-Logs", champLogin.getText().toString());
@@ -164,13 +164,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                gs.alerter("preferences");
+                //gs.alerter("preferences");
                 // afficher l'activité "préférences"
                 Intent toSettings = new Intent(this, SettingsActivity.class);
                 startActivity(toSettings);
                 break;
             case R.id.action_account:
-                gs.alerter("compte");
+                //gs.alerter("compte");
                 break;
 
         }

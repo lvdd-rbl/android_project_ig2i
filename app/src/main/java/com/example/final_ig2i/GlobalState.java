@@ -52,6 +52,7 @@ public class GlobalState extends Application {
         CookieHandler.setDefault(cookieManager);
     }
 
+    // Affiche le string dans un toaster
     public void alerter(String s) {
         Log.i(CAT, s);
         Toast t = Toast.makeText(this, s, Toast.LENGTH_LONG);
@@ -110,7 +111,7 @@ public class GlobalState extends Application {
                     urlConnection.setDoInput(true);
                     urlConnection.setDoOutput(true);
 
-                    String jsonBody = "{\""; // todo algo à part "queryStringToJSON"
+                    String jsonBody = "{\"";
                     for (int i = 0; i < stringBody.length(); i++) {
                         if (stringBody.charAt(i) == '=') {
                             jsonBody += "\"" + ":" + "\"";
@@ -172,11 +173,12 @@ public class GlobalState extends Application {
             }
         }
 
-        this.alerter(sType);
+        //this.alerter(sType);
         return bStatut;
     }
 
 
+    // Encrypter le token
     public String createJWT(JSONObject dataToCrypt) throws UnsupportedEncodingException {
 
         return Jwts.builder()
@@ -186,12 +188,13 @@ public class GlobalState extends Application {
                 .compact();
     }
 
+    // Décrypter le token
     public Claims  decodeJWT(String jwtToDecrypt)throws UnsupportedEncodingException {
         Jws<Claims> result = Jwts.parser()
                 .setSigningKey( secret.getBytes("UTF-8"))
                 .parseClaimsJws(jwtToDecrypt);
 
-        System.out.println(result);
+        //System.out.println(result);
         return result.getBody();
     }
 }

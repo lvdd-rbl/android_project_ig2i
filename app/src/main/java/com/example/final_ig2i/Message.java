@@ -12,6 +12,14 @@ public class Message {
 
     }
 
+    /**
+     * Constructeur par données
+     * @param id
+     * @param user
+     * @param conversation
+     * @param message
+     * @param couleur
+     */
     public Message(Integer id, String user, String conversation, String message, String couleur) {
         this.id = id;
         this.user = user;

@@ -17,6 +17,12 @@ public class Conversation {
     // Raccourci : Alt+Ins pour générer getters, setters et constructeurs
 
 
+    /**
+     * Constructeur par données
+     * @param _id
+     * @param theme
+     * @param active
+     */
     public Conversation(String _id, String theme, Boolean active) {
         this._id = _id;
         this.theme = theme;
